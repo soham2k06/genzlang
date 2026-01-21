@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-sans: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Radius */
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
+
+  /* Colors */
+  --color-background: hsl(240 10% 4%);
+  --color-foreground: hsl(0 0% 98%);
+
+  --color-card: hsl(240 10% 8%);
+  --color-card-foreground: hsl(0 0% 98%);
+
+  --color-popover: hsl(240 10% 8%);
+  --color-popover-foreground: hsl(0 0% 98%);
+
+  --color-primary: hsl(142 76% 50%);
+  --color-primary-foreground: hsl(240 10% 4%);
+
+  --color-secondary: hsl(280 100% 70%);
+  --color-secondary-foreground: hsl(0 0% 98%);
+
+  --color-muted: hsl(240 10% 15%);
+  --color-muted-foreground: hsl(240 5% 65%);
+
+  --color-accent: hsl(45 100% 60%);
+  --color-accent-foreground: hsl(240 10% 4%);
+
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --color-border: hsl(240 10% 20%);
+  --color-input: hsl(240 10% 15%);
+  --color-ring: hsl(142 76% 50%);
+
+  /* Custom design tokens */
+  --neon-glow: 0 0 20px hsl(142 76% 50% / 0.5);
+  --neon-glow-secondary: 0 0 20px hsl(280 100% 70% / 0.5);
+  --gradient-hero: linear-gradient(135deg, hsl(142 76% 50%), hsl(280 100% 70%));
+  --gradient-text: linear-gradient(
+    90deg,
+    hsl(142 76% 50%),
+    hsl(280 100% 70%),
+    hsl(45 100% 60%)
+  );
+
+  --terminal-bg: hsl(240 10% 6%);
+  --terminal-header: hsl(240 10% 12%);
+
+  --code-keyword: hsl(280 100% 70%);
+  --code-string: hsl(45 100% 60%);
+  --code-function: hsl(142 76% 50%);
+  --code-comment: hsl(240 5% 50%);
+}
+
+/* ---- Base styles ---- */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: "JetBrains Mono", monospace;
+  }
+}
+
+/* ---- Components ---- */
+@layer components {
+  .gradient-text {
+    background: var(--gradient-text);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .neon-border {
+    box-shadow:
+      var(--neon-glow),
+      inset 0 1px 0 hsl(var(--color-primary) / 0.1);
+    border-color: hsl(var(--color-primary) / 0.5);
+  }
+
+  .neon-border-secondary {
+    box-shadow:
+      var(--neon-glow-secondary),
+      inset 0 1px 0 hsl(var(--color-secondary) / 0.1);
+    border-color: hsl(var(--color-secondary) / 0.5);
+  }
+
+  .terminal-window {
+    background: var(--terminal-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .code-keyword {
+    color: var(--code-keyword);
+  }
+
+  .code-string {
+    color: var(--code-string);
+  }
+
+  .code-function {
+    color: var(--code-function);
+  }
+
+  .code-comment {
+    color: var(--code-comment);
+    font-style: italic;
+  }
+}
+
+/* ---- Utilities & animations ---- */
+@layer utilities {
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow:
+        0 0 10px hsl(142 76% 50% / 0.3),
+        0 0 20px hsl(142 76% 50% / 0.2);
+    }
+    to {
+      box-shadow:
+        0 0 20px hsl(142 76% 50% / 0.5),
+        0 0 40px hsl(142 76% 50% / 0.3);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
