@@ -248,6 +248,74 @@ export function CodePlayground() {
           textareaRef.current.selectionEnd = start + 2;
         }
       }, 0);
+      return;
+    }
+
+    // Auto-close brackets, parentheses, braces, and quotes
+    const autoClosePairs: Record<string, string> = {
+      "(": ")",
+      "[": "]",
+      "{": "}",
+      '"': '"',
+      "'": "'",
+    };
+
+    if (autoClosePairs[e.key]) {
+      e.preventDefault();
+      const start = textareaRef.current?.selectionStart || 0;
+      const end = textareaRef.current?.selectionEnd || 0;
+      const hasSelection = start !== end;
+
+      if (hasSelection) {
+        // Wrap selection with pair
+        const selectedText = code.substring(start, end);
+        const newCode =
+          code.substring(0, start) +
+          e.key +
+          selectedText +
+          autoClosePairs[e.key] +
+          code.substring(end);
+        setCode(newCode);
+        setTimeout(() => {
+          if (textareaRef.current) {
+            textareaRef.current.selectionStart = start + 1;
+            textareaRef.current.selectionEnd = end + 1;
+          }
+        }, 0);
+      } else {
+        // Insert pair and place cursor between them
+        const newCode =
+          code.substring(0, start) +
+          e.key +
+          autoClosePairs[e.key] +
+          code.substring(end);
+        setCode(newCode);
+        setTimeout(() => {
+          if (textareaRef.current) {
+            textareaRef.current.selectionStart = start + 1;
+            textareaRef.current.selectionEnd = start + 1;
+          }
+        }, 0);
+      }
+      return;
+    }
+
+    // Skip over closing bracket if it's already there
+    const closingChars = [")", "]", "}", '"', "'"];
+    if (closingChars.includes(e.key)) {
+      const start = textareaRef.current?.selectionStart || 0;
+      const nextChar = code[start];
+
+      if (nextChar === e.key) {
+        e.preventDefault();
+        setTimeout(() => {
+          if (textareaRef.current) {
+            textareaRef.current.selectionStart = start + 1;
+            textareaRef.current.selectionEnd = start + 1;
+          }
+        }, 0);
+        return;
+      }
     }
   };
 
