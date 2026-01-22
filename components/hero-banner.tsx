@@ -63,12 +63,12 @@ export function HeroBanner() {
         <p className="text-sm text-muted-foreground">
           Made with 💀 by{" "}
           <a
-            href="https://x.com/sohmmdev"
+            href={process.env.NEXT_PUBLIC_PORTFOLIO_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:text-primary/80 font-semibold transition-colors"
           >
-            @Sohmmdev
+            Soham
           </a>
         </p>
       </div>
